@@ -19,6 +19,20 @@ db.once("open", function(callback){
   console.log("Connection Succeeded");
 });
 
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:8080",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on('connection', function(socket) {
+  socket.on('SEND_MESSAGE', function(data) {
+      io.emit('MESSAGE', data)
+      console.log(data)
+  });
+});
+
 
 
 const app = express()
