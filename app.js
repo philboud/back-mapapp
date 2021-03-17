@@ -31,6 +31,24 @@ app.use(function (req, res, next) {
     next();
 });
 
+server = app.listen(3002, function(){
+  console.log('server is running on port 3002')
+});
+
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "https://ma-petite-app.herokuapp.com/",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on('connection', function(socket) {
+  socket.on('SEND_MESSAGE', function(data) {
+      io.emit('MESSAGE', data)
+      console.log(data)
+  });
+});
+
 // Fetch all profiles
 app.get('/profiles', (req, res) => {
   var laReq = 'lastname firstname address dataperso'
