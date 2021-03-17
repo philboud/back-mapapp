@@ -21,7 +21,7 @@ db.once("open", function(callback){
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:8080",
+    origin: "https://ma-petite-app.herokuapp.com/",
     methods: ["GET", "POST"]
   }
 });
