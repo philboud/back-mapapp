@@ -31,9 +31,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-server = app.listen(3002, function(){
-  console.log('server is running on port 3002')
-});
 
 const http = require('http').Server(app)
 const io = require("socket.io")(http, {
@@ -43,11 +40,15 @@ const io = require("socket.io")(http, {
   }
 });
 
-io.on('connection', function(socket) {
+io.on('connection', (socket) => {
   socket.on('SEND_MESSAGE', function(data) {
       io.emit('MESSAGE', data)
       console.log(data)
   });
+});
+
+server = app.listen(3002, function(){
+  console.log('server is running on port 3002')
 });
 
 // Fetch all profiles
