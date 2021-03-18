@@ -35,7 +35,8 @@ server = app.listen(3002, function(){
   console.log('server is running on port 3002')
 });
 
-const io = require("socket.io")(server, {
+const http = require('http').Server(app)
+const io = require("socket.io")(http, {
   cors: {
     origin: "https://ma-petite-app.herokuapp.com/",
     methods: ["GET", "POST"]
