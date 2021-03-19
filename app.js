@@ -401,7 +401,7 @@ app.get('/chat', (req, res) => {
   }).sort({_id:-1})
 })
 // Add new chat
-app.post('/products', (req, res) => {
+app.post('/chat', (req, res) => {
   
   var db = req.db;
   var user = req.body.user;
