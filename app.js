@@ -392,7 +392,7 @@ app.delete('/refimages/:id', (req, res) => {
 })
 // Fetch all chats in db
 app.get('/chat', (req, res) => {
-  Chat.find({}, 'user message', function (error, chat) {
+  Chat.find({}, 'user message timeStamp', function (error, chat) {
     if (error) { console.error(error);
      }
        res.send({
@@ -406,9 +406,11 @@ app.post('/chat', (req, res) => {
   var db = req.db;
   var user = req.body.user;
   var message = req.body.message;
+  var timeStamp = req.body.timeStamp;
   var new_chat = new Chat({
     user: user,
-    message: message
+    message: message,
+    timeStamp: timeStamp
 
   })
   new_chat.save(function (error) {
@@ -424,7 +426,7 @@ app.post('/chat', (req, res) => {
 // Fetch single chat
 app.get('/chat/:id', (req, res) => {
   var db = req.db;
-  Chat.findById(req.params.id, 'user message', function (error, chat) {
+  Chat.findById(req.params.id, 'user message timeStamp', function (error, chat) {
     if (error) { console.error(error); }
     res.send(chat)
   })
@@ -433,10 +435,11 @@ app.get('/chat/:id', (req, res) => {
 // Update a chat
 app.put('/chat/:id', (req, res) => {
   var db = req.db;
-  Chat.findById(req.params.id, 'user message', function (error, chat) {
+  Chat.findById(req.params.id, 'user message timeStamp', function (error, chat) {
     if (error) { console.error(error); }
     chat.user = req.body.user
     chat.message = req.body.message
+    chat.timeStamp = req.body.timeStamp
     chat.save(function (error) {
       if (error) {
         console.log(error)

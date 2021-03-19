@@ -3,7 +3,8 @@ var Schema = mongoose.Schema
 
 var ChatSchema = new Schema({
   user: String,
-  message: String
+  message: String,
+  timeStamp: String
 });
 
 var Chat = mongoose.model("Chat", ChatSchema)
