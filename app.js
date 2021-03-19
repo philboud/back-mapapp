@@ -390,9 +390,9 @@ app.delete('/refimages/:id', (req, res) => {
     })
   })
 })
-// Fetch all chat in basket
+// Fetch all chats in db
 app.get('/chat', (req, res) => {
-  Chat.find({}, 'chat added', function (error, chat) {
+  Chat.find({}, 'user message', function (error, chat) {
     if (error) { console.error(error);
      }
        res.send({
