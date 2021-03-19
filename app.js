@@ -8,7 +8,9 @@ var Item = require("./models/items.model")
 var Profile = require("./models/profile.model")
 var Product = require("./models/basket.model")
 var Refimage = require("./models/refimage.model")
+var Chat = require("./models/chat.model")
 const uri = process.env.MONGODB_URI;
+
 
 
 
@@ -32,8 +34,8 @@ app.use(function (req, res, next) {
 });
 
 
-const http = require('http').Server(app)
-const io = require("socket.io")(http, {
+const httpServer = require('http').Server(app)
+const io = require('socket.io')(httpServer, {
   cors: {
     origin: "https://ma-petite-app.herokuapp.com/",
     methods: ["GET", "POST"]
@@ -381,6 +383,77 @@ app.delete('/refimages/:id', (req, res) => {
   Refimage.remove({
     _id: req.params.id
   }, function(err, item){
+    if (err)
+      res.send(err)
+    res.send({
+      success: true
+    })
+  })
+})
+// Fetch all chat in basket
+app.get('/chat', (req, res) => {
+  Chat.find({}, 'chat added', function (error, chat) {
+    if (error) { console.error(error);
+     }
+       res.send({
+      chat: chat,
+    })
+  }).sort({_id:-1})
+})
+// Add new chat
+app.post('/products', (req, res) => {
+  
+  var db = req.db;
+  var user = req.body.user;
+  var message = req.body.message;
+  var new_chat = new Chat({
+    user: user,
+    message: message
+
+  })
+  new_chat.save(function (error) {
+    if (error) {
+      console.log(error)
+    }
+    res.send({
+      success: true,
+      message: 'Chat saved successfully!'
+    })
+  })
+})
+// Fetch single chat
+app.get('/chat/:id', (req, res) => {
+  var db = req.db;
+  Chat.findById(req.params.id, 'user message', function (error, chat) {
+    if (error) { console.error(error); }
+    res.send(chat)
+  })
+})
+
+// Update a chat
+app.put('/chat/:id', (req, res) => {
+  var db = req.db;
+  Chat.findById(req.params.id, 'user message', function (error, chat) {
+    if (error) { console.error(error); }
+    chat.user = req.body.user
+    chat.message = req.body.message
+    chat.save(function (error) {
+      if (error) {
+        console.log(error)
+      }
+      res.send({
+        success: true
+      })
+    })
+  })
+})
+
+// Delete a chat
+app.delete('/chat/:id', (req, res) => {
+  var db = req.db;
+  Chat.remove({
+    _id: req.params.id
+  }, function(err, chat){
     if (err)
       res.send(err)
     res.send({
