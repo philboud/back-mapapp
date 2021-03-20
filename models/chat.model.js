@@ -5,8 +5,7 @@ var ChatSchema = new Schema({
   user: String,
   message: String,
   timeStamp: {
-    type: Date, 
-    default: Date.now
+    type: Date
   }
 });
 
