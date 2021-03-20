@@ -4,7 +4,7 @@ var Schema = mongoose.Schema
 var ChatSchema = new Schema({
   user: String,
   message: String,
-  timeStamp: { type: Date, default: Date.now }
+  timeStamp: Date
 });
 
 var Chat = mongoose.model("Chat", ChatSchema)
