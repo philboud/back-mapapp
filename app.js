@@ -398,7 +398,7 @@ app.get('/chat', (req, res) => {
        res.send({
       chat: chat,
     })
-  })
+  }).sort({_id:-1})
 })
 // Add new chat
 app.post('/chat', (req, res) => {
