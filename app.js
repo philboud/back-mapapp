@@ -315,7 +315,7 @@ app.get('/refimages', (req, res) => {
     res.send({
       refimages: refimages
       })
-  }).sort({_id:-1})
+  })
 })
 
 // Add new refimage
